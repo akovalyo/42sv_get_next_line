@@ -6,16 +6,16 @@
 /*   By: akovalyo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 10:00:15 by akovalyo          #+#    #+#             */
-/*   Updated: 2020/03/06 15:33:38 by akovalyo         ###   ########.fr       */
+/*   Updated: 2020/03/06 20:33:39 by akovalyo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char		*rest_text(char *content, char **ptr_endl)
+char	*rest_text(char *content, char **ptr_endl)
 {
 	char *fline;
-	
+
 	fline = NULL;
 	*ptr_endl = ft_strchr(content, '\n');
 	if (*ptr_endl != NULL)
@@ -33,7 +33,7 @@ char		*rest_text(char *content, char **ptr_endl)
 	return (fline);
 }
 
-int			new_line(int fd, char **line, char *content, char **buf)
+int		new_line(int fd, char **line, char *content, char **buf)
 {
 	int		byte_read;
 	char	*tmp;
@@ -42,16 +42,15 @@ int			new_line(int fd, char **line, char *content, char **buf)
 	ptr_endl = NULL;
 	tmp = NULL;
 	*line = rest_text(content, &ptr_endl);
-	while (!ptr_endl && ((byte_read = read(fd, *buf, BUFF_SIZE))))
+	while (!ptr_endl && ((byte_read = read(fd, *buf, BUFF_SIZE))
+				&& byte_read > 0))
 	{
 		(*buf)[byte_read] = '\0';
 		ptr_endl = ft_strchr(*buf, '\n');
 		if (ptr_endl)
 		{
-			ptr_endl++;
-			ft_strcpy(content, ptr_endl);
-			ptr_endl--;
-			ft_strclr(ptr_endl);
+			ft_strcpy(content, ++ptr_endl);
+			ft_strclr(--ptr_endl);
 		}
 		tmp = *line;
 		if (!(*line = ft_strjoin(tmp, *buf)) || byte_read < 0)
@@ -59,10 +58,6 @@ int			new_line(int fd, char **line, char *content, char **buf)
 		free(tmp);
 	}
 	return (**line == '\0' && !byte_read && !ft_strlen(content)) ? 0 : 1;
-	//if (ft_strlen(content) || ft_strlen(*line) || byte_read)
-	//	return (1);
-	//else
-	//	return (0);
 }
 
 t_list	*new_elem(int fd)
@@ -78,18 +73,16 @@ t_list	*new_elem(int fd)
 	return (elem);
 }
 
-int			get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line)
 {
 	static t_list	*lst;
-	t_list		*tmp;
+	t_list			*tmp;
 	char			*ptr_endl;
-	char *buf;
-	int res;
+	char			*buf;
+	int				res;
 
 	ptr_endl = NULL;
 	buf = NULL;
-	//buf = ft_memalloc(BUFF_SIZE + 1);
-	//ft_bzero(buf, BUFF_SIZE + 1);
 	if (fd < 0 || !line || (read(fd, buf, 0)) < 0)
 		return (-1);
 	buf = ft_memalloc(BUFF_SIZE + 1);
@@ -103,8 +96,6 @@ int			get_next_line(int fd, char **line)
 		tmp = tmp->next;
 	}
 	res = new_line(fd, line, tmp->content, &buf);
-	//ft_bzero(buf, BUFF_SIZE + 1);
-	//ft_strdel(&buf);
 	free(buf);
 	return (res);
 }
