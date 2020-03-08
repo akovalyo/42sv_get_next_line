@@ -1,5 +1,7 @@
 # 42sv_GET_Next_Line
 
+Final result: 125/100
+
 ### Summury:
 
 The aim of this project is to make you code a function that returns a line ending with a newline, read from a file descriptor.
