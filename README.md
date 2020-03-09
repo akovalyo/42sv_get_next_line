@@ -1,6 +1,8 @@
 # 42sv_GET_Next_Line
 
-Final result: 125/100
+```diff
++ Final result: 125/100
+```
 
 ### Summury:
 
