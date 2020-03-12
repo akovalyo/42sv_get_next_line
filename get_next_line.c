@@ -77,11 +77,9 @@ int		get_next_line(int fd, char **line)
 {
 	static t_list	*lst;
 	t_list			*tmp;
-	char			*ptr_endl;
 	char			*buf;
 	int				res;
 
-	ptr_endl = NULL;
 	buf = NULL;
 	if (fd < 0 || !line || (read(fd, buf, 0)) < 0)
 		return (-1);
