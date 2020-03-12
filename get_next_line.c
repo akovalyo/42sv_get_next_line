@@ -6,7 +6,7 @@
 /*   By: akovalyo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 10:00:15 by akovalyo          #+#    #+#             */
-/*   Updated: 2020/03/06 21:19:16 by akovalyo         ###   ########.fr       */
+/*   Updated: 2020/03/06 20:33:39 by akovalyo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		new_line(int fd, char **line, char *content, char **buf)
 			return (-1);
 		free(tmp);
 	}
-	return (**line == '\0' && !byte_read && !ft_strlen(content)) ? 0 : 1;
+	return ((**line == '\0' && !byte_read && !ft_strlen(content)) ? 0 : 1);
 }
 
 t_list	*new_elem(int fd)
