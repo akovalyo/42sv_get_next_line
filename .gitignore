@@ -1,7 +1,11 @@
-test
+*test*
 .DS_Store
 ._*
 .*.swp
 main.c
 *.txt
 /Makefile
+gnl-master/
+run.sh
+main*
+_*
