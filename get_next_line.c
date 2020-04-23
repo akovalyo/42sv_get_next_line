@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akovalyo <al.kovalyov@gmail.com>           +#+  +:+       +#+        */
+/*   By: akovalyo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 10:00:15 by akovalyo          #+#    #+#             */
-/*   Updated: 2020/04/15 13:09:29 by akovalyo         ###   ########.fr       */
+/*   Updated: 2020/03/06 20:33:39 by akovalyo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strchr(const char *s, int c)
-{
-	int i;
-
-	i = 0;
-	while (s[i] && s[i] != (char)c)
-		i++;
-	if (s[i] == (char)c)
-		return ((char *)&s[i]);
-	return (NULL);
-}
 
 char	*rest_text(char *content, char **ptr_endl)
 {
@@ -30,17 +18,17 @@ char	*rest_text(char *content, char **ptr_endl)
 
 	fline = NULL;
 	*ptr_endl = ft_strchr(content, '\n');
-	if (*ptr_endl)
+	if (*ptr_endl != NULL)
 	{
-		fline = ft_subjoin(content, (*ptr_endl - content), content, 0);
+		fline = ft_strsub(content, 0, (*ptr_endl - content));
 		(*ptr_endl)++;
-		ft_strutil(content, *ptr_endl, 0);
+		ft_strcpy(content, *ptr_endl);
 	}
 	else
 	{
 		fline = ft_strnew(ft_strlen(content) + 1);
-		ft_strutil(fline, content, 1);
-		ft_bzero(content, ft_strlen(content));
+		ft_strcat(fline, content);
+		ft_strclr(content);
 	}
 	return (fline);
 }
@@ -54,18 +42,18 @@ int		new_line(int fd, char **line, char *content, char **buf)
 	ptr_endl = NULL;
 	tmp = NULL;
 	*line = rest_text(content, &ptr_endl);
-	while (!ptr_endl && ((byte_read = read(fd, *buf, BUFFER_SIZE))
+	while (!ptr_endl && ((byte_read = read(fd, *buf, BUFF_SIZE))
 				&& byte_read > 0))
 	{
 		(*buf)[byte_read] = '\0';
 		ptr_endl = ft_strchr(*buf, '\n');
 		if (ptr_endl)
 		{
-			ft_strutil(content, ++ptr_endl, 0);
-			ft_bzero(--ptr_endl, 1);
+			ft_strcpy(content, ++ptr_endl);
+			ft_strclr(--ptr_endl);
 		}
 		tmp = *line;
-		if (!(*line = ft_subjoin(tmp, 0, *buf, 1)) || byte_read < 0)
+		if (!(*line = ft_strjoin(tmp, *buf)) || byte_read < 0)
 			return (-1);
 		free(tmp);
 	}
@@ -79,8 +67,8 @@ t_list	*new_elem(int fd)
 	elem = (t_list *)malloc(sizeof(t_list));
 	if (elem == NULL)
 		return (NULL);
-	elem->content = ft_strnew(BUFFER_SIZE + 1);
-	elem->fd = fd;
+	elem->content = ft_strnew(BUFF_SIZE);
+	elem->content_size = (size_t)fd;
 	elem->next = NULL;
 	return (elem);
 }
@@ -95,11 +83,11 @@ int		get_next_line(int fd, char **line)
 	buf = NULL;
 	if (fd < 0 || !line || (read(fd, buf, 0)) < 0)
 		return (-1);
-	buf = ft_strnew(BUFFER_SIZE + 1);
+	buf = ft_memalloc(BUFF_SIZE + 1);
 	if (!lst)
 		lst = new_elem(fd);
 	tmp = lst;
-	while (fd != tmp->fd)
+	while (fd != (int)tmp->content_size)
 	{
 		if (tmp->next == NULL)
 			tmp->next = new_elem(fd);

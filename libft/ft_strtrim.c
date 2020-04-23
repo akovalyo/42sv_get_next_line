@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akovalyo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/25 10:00:34 by akovalyo          #+#    #+#             */
-/*   Updated: 2020/03/06 20:28:14 by akovalyo         ###   ########.fr       */
+/*   Created: 2020/01/28 12:42:53 by akovalyo          #+#    #+#             */
+/*   Updated: 2020/02/19 21:13:53 by akovalyo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft.h"
-# define BUFF_SIZE 32
+#include "libft.h"
 
-char	*rest_text(char *ptr_rest, char **ptr_endl);
-int		new_line(const int fd, char **line, char *ptr_rest, char **ptr_endl);
-t_list	*new_elem(const int fd);
-int		get_next_line(const int fd, char **line);
+char	*ft_strtrim(char const *s)
+{
+	int i;
+	int j;
+	int end;
 
-#endif
+	i = 0;
+	j = 0;
+	if (s == NULL)
+		return (NULL);
+	end = ft_strlen(s) - 1;
+	while ((s[i] == ' ' || s[i] == '\n' || s[i] == '\t') && s[i] != '\0')
+		i++;
+	while ((s[end] == ' ' || s[end] == '\n' || s[end] == '\t') && end > i)
+	{
+		j++;
+		end--;
+	}
+	return (ft_strsub(s, i, (ft_strlen(s) - i - j)));
+}

@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akovalyo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/25 10:00:34 by akovalyo          #+#    #+#             */
-/*   Updated: 2020/03/06 20:28:14 by akovalyo         ###   ########.fr       */
+/*   Created: 2020/02/19 15:54:52 by akovalyo          #+#    #+#             */
+/*   Updated: 2020/02/19 15:55:38 by akovalyo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft.h"
-# define BUFF_SIZE 32
+#include "libft.h"
 
-char	*rest_text(char *ptr_rest, char **ptr_endl);
-int		new_line(const int fd, char **line, char *ptr_rest, char **ptr_endl);
-t_list	*new_elem(const int fd);
-int		get_next_line(const int fd, char **line);
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char *fresh;
 
-#endif
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	fresh = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (fresh == NULL)
+		return (NULL);
+	ft_strcpy(fresh, s1);
+	ft_strcat(fresh, s2);
+	return (fresh);
+}

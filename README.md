@@ -1,6 +1,8 @@
 # 42sv_GET_Next_Line
 
-**New curriculum**
+```diff
++ Final result: 125/100
+```
 
 ### Summury:
 

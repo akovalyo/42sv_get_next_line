@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akovalyo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/25 10:00:34 by akovalyo          #+#    #+#             */
-/*   Updated: 2020/03/06 20:28:14 by akovalyo         ###   ########.fr       */
+/*   Created: 2020/01/22 20:47:33 by akovalyo          #+#    #+#             */
+/*   Updated: 2020/02/19 16:27:33 by akovalyo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft.h"
-# define BUFF_SIZE 32
+#include "libft.h"
 
-char	*rest_text(char *ptr_rest, char **ptr_endl);
-int		new_line(const int fd, char **line, char *ptr_rest, char **ptr_endl);
-t_list	*new_elem(const int fd);
-int		get_next_line(const int fd, char **line);
-
-#endif
+void	ft_putnbr_fd(int n, int fd)
+{
+	if (n == -2147483648)
+		ft_putstr_fd("-2147483648", fd);
+	else
+	{
+		if (n < 0)
+		{
+			ft_putchar_fd('-', fd);
+			n = -n;
+		}
+		if (n >= 10)
+			ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd(n % 10 + 48, fd);
+	}
+}

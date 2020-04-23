@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akovalyo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/25 10:00:34 by akovalyo          #+#    #+#             */
-/*   Updated: 2020/03/06 20:28:14 by akovalyo         ###   ########.fr       */
+/*   Created: 2020/01/17 20:07:12 by akovalyo          #+#    #+#             */
+/*   Updated: 2020/02/19 16:25:56 by akovalyo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "libft.h"
-# define BUFF_SIZE 32
+#include "libft.h"
 
-char	*rest_text(char *ptr_rest, char **ptr_endl);
-int		new_line(const int fd, char **line, char *ptr_rest, char **ptr_endl);
-t_list	*new_elem(const int fd);
-int		get_next_line(const int fd, char **line);
+void	ft_putstr_fd(char const *s, int fd)
+{
+	size_t i;
 
-#endif
+	i = 0;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}
